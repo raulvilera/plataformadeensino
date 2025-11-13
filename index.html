@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade de Ciências - 4º Bimestre</title>
+    <style>
+        /* Reset e configurações gerais */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #d0d0d0;
+            padding: 20px;
+            min-height: 100vh;
+            background-image: linear-gradient(145deg, #c0c0c0, #e0e0e0);
+        }
+        
+        /* Container principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background-color: #d0d0d0;
+            z-index: 1;
+            border-radius: 20px;
+            box-shadow: inset 5px 5px 10px #b3b3b3, 
+                       inset -5px -5px 10px #ededed;
+        }
+        
+        /* Cabeçalho */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(145deg, #e6f2ff, #cce5ff);
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px #b3b3b3, 
+                       -8px -8px 16px #ffffff;
+            position: relative;
+            z-index: 2;
+            border: 1px solid #b8d4f0;
+        }
+        
+        .school-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #004085;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        /* Informações do aluno - Layout responsivo */
+        .student-info {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .student-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+        
+        .info-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .name-group {
+            grid-column: 1 / 2;
+        }
+        
+        @media (max-width: 768px) {
+            .name-group {
+                grid-column: 1 / 2;
+            }
+        }
+        
+        .info-label {
+            margin-right: 5px;
+            font-weight: bold;
+            color: #004085;
+            white-space: nowrap;
+        }
+        
+        .info-field {
+            padding: 8px;
+            border: 1px solid #a0c4e0;
+            border-radius: 4px;
+            background-color: #f8fbff;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+        }
+        
+        .activity-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            color: #004085;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        /* Questões */
+        .question-container {
+            padding: 25px;
+            margin-bottom: 30px;
+            background: linear-gradient(145deg, #e6f2ff, #cce5ff);
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px #b3b3b3, 
+                       -8px -8px 16px #ffffff;
+            position: relative;
+            z-index: 2;
+            border: 1px solid #b8d4f0;
+        }
+        
+        .question {
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #004085;
+            line-height: 1.4;
+        }
+        
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.2);
+            border: 1px solid #a0c4e0;
+            display: block;
+        }
+        
+        .options {
+            margin-top: 15px;
+        }
+        
+        .option {
+            margin-bottom: 10px;
+            padding: 12px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 8px;
+            border: 1px solid #d0d0d0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.1),
+                       -4px -4px 8px rgba(255,255,255,0.7);
+        }
+        
+        .option:hover {
+            background: linear-gradient(145deg, #f5f5f5, #e8e8e8);
+            transform: translateY(-2px);
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.15),
+                       -6px -6px 12px rgba(255,255,255,0.8);
+        }
+        
+        .option.selected {
+            background: linear-gradient(145deg, #155724, #0f4019);
+            border-color: #0f4019;
+            color: white;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3),
+                        4px 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Letras das alternativas em negrito */
+        .option::before {
+            content: attr(data-letter);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        /* Botões */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+            gap: 15px;
+        }
+        
+        @media (max-width: 480px) {
+            .buttons {
+                flex-direction: column;
+            }
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.2),
+                       -6px -6px 12px rgba(255,255,255,0.7);
+            flex: 1;
+        }
+        
+        #submitBtn {
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+        }
+        
+        #submitBtn:hover {
+            background: linear-gradient(145deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.25),
+                       -8px -8px 16px rgba(255,255,255,0.7);
+        }
+        
+        #submitBtn:active {
+            transform: translateY(1px);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        #clearBtn {
+            background: linear-gradient(145deg, #6c757d, #545b62);
+            color: white;
+        }
+        
+        #clearBtn:hover {
+            background: linear-gradient(145deg, #545b62, #3d4348);
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.25),
+                       -8px -8px 16px rgba(255,255,255,0.7);
+        }
+        
+        #clearBtn:active {
+            transform: translateY(1px);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Resultado */
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .success {
+            background: linear-gradient(145deg, #d4edda, #c3e6cb);
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .error {
+            background: linear-gradient(145deg, #f8d7da, #f5c6cb);
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="school-name">E.E. PROFª WANDA MASCAGNI DE SÁ</div>
+            <div class="student-info">
+                <div class="info-group name-group">
+                    <span class="info-label">NOME:</span>
+                    <select id="studentName" class="info-field">
+                        <option value="">Selecione seu nome</option>
+                        <!-- Opções serão preenchidas via JavaScript -->
+                    </select>
+                </div>
+                <div class="info-group">
+                    <span class="info-label">Nº:</span>
+                    <input type="text" id="studentNumber" class="info-field" readonly>
+                </div>
+                <div class="info-group">
+                    <span class="info-label">SÉRIE:</span>
+                    <input type="text" id="studentGrade" class="info-field" readonly>
+                </div>
+                <div class="info-group">
+                    <span class="info-label">DATA:</span>
+                    <input type="text" id="currentDate" class="info-field" value="" readonly>
+                </div>
+            </div>
+            <div class="activity-title">ATIVIDADE DE CIÊNCIAS (4º BIMESTRE)</div>
+        </div>
+        
+        <div id="questionsContainer">
+            <!-- As questões serão inseridas aqui via JavaScript -->
+        </div>
+        
+        <div class="buttons">
+            <button id="submitBtn">Enviar Respostas</button>
+            <button id="clearBtn">Limpar Respostas</button>
+        </div>
+        
+        <div id="resultMessage" class="result"></div>
+    </div>
+
+    <script>
+        // Dados dos alunos
+        const students = {
+            "8ºAno A": [
+                { number: "2", name: "ANA BEATRIZ RODRIGUES OLIVEIRA" },
+                { number: "3", name: "ANA CLARA SOUSA DA COSTA" },
+                { number: "4", name: "ANA VICTORIA RAGACINI DE OLIVEIRA" },
+                { number: "5", name: "ARTHUR DAVI DE SOUZA FERNANDES" },
+                { number: "6", name: "EDUARDA ALVES DE SOUZA" },
+                { number: "7", name: "EMANUEL ALVES OLIVEIRA" },
+                { number: "8", name: "ESTHER CRISTINE SILVA RIBEIRO" },
+                { number: "9", name: "EVELLYN YASMIN TAVARES SILVA" },
+                { number: "10", name: "FELIPE DE SOUZA RODRIGUES" },
+                { number: "11", name: "FERNANDA POLACHINI MAYER GOMES MARQUES" },
+                { number: "12", name: "GEOVANNA VITORIA ROCHA ABDALA" },
+                { number: "15", name: "GUSTAVO AUGUSTO TOMBOLO REIS" },
+                { number: "17", name: "IGOR MARTINS PEREIRA" },
+                { number: "18", name: "IZABELLY VITORIA DE CARVALHO RODRIGUES SETH" },
+                { number: "21", name: "KAROLAYNE DOS SANTOS BISSORNIA" },
+                { number: "22", name: "KAUANNY APARECIDA MALAQUIAS LIMA" },
+                { number: "23", name: "KÉTHILY NAYARA DA SILVA" },
+                { number: "25", name: "LAVINIA PEREIRA DE SOUZA" },
+                { number: "26", name: "LIVIA PEREIRA DE SOUZA" },
+                { number: "27", name: "LOHRAN ROMUALDO MENDES DA SILVA" },
+                { number: "28", name: "LUIS MIGUEL GONCALVES DA SILVA" },
+                { number: "29", name: "MARCELA ROBERTO DE OLIVEIRA" },
+                { number: "31", name: "MATHEUS TURCHETTO" },
+                { number: "32", name: "OMRAN RASEKH" },
+                { number: "33", name: "PRISCILLA VITORIA MENDES DE OLIVEIRA" },
+                { number: "36", name: "SARAH VITORIA ALVES OLIVEIRA" },
+                { number: "37", name: "YURI GABRIEL DE MORAES PONGOLINO" },
+                { number: "38", name: "ZAYN AL ABIDIN RASULI" },
+                { number: "39", name: "ARTHUR COHEN BARRETO" },
+                { number: "40", name: "ISABELLA DOS SANTOS SALDANHA" },
+                { number: "41", name: "MIGUEL MARTINS DE ASSIS" },
+                { number: "42", name: "ALICE CARVALHO" },
+                { number: "43", name: "AMANDA PASSOS DE ALMEIDA" },
+                { number: "44", name: "ANA JULIA MENEZES DA SILVA" },
+                { number: "45", name: "HENRIQUE ROCHA CARVALHAL" }
+            ],
+            "8ºAno B": [
+                { number: "2", name: "ANA CLARA GONCALVES TORRES LOYOLA" },
+                { number: "3", name: "ANNA BEATRIZ SANTIAGO DA SILVA" },
+                { number: "6", name: "ELIAS SILVA DE LIMA" },
+                { number: "7", name: "EVERTON HENRIQUE CARMO RODRIGUES" },
+                { number: "9", name: "GABRIELA VITORIA SEVERA LINS" },
+                { number: "12", name: "JULIO CESAR ALVES DOS SANTOS" },
+                { number: "14", name: "LUAN VENITES BALBINO" },
+                { number: "17", name: "MARIA EDUARDA FELIX DA SILVA" },
+                { number: "18", name: "MONIQUE RIJO COSTA" },
+                { number: "19", name: "MUNIQUE CRISTINA LUCAS" },
+                { number: "20", name: "NICOLAS PENTEADO" },
+                { number: "23", name: "PAULO CELSO DA COSTA JUNIOR" },
+                { number: "24", name: "PEDRO HENRIQUE CARLOS LIMA" },
+                { number: "25", name: "PEDRO HENRIQUE MORAIS AMORIM" },
+                { number: "27", name: "PIETRO RODRIGUES MIRANDA" },
+                { number: "28", name: "RAPHAELLY APARECIDA MARINHO DE OLIVEIRA" },
+                { number: "29", name: "RENAN LEANDRO RODRIGUES VICENTE" },
+                { number: "33", name: "WENDELL RAFAEL DE JESUS LESSA" },
+                { number: "34", name: "WILHAN KENJI ANTONIO" },
+                { number: "40", name: "JENNYFER VITORIA BASILIO GOMES" },
+                { number: "41", name: "THAYNA SEABRA DE OLIVEIRA DO NASCIMENTO" },
+                { number: "46", name: "SOPHIA MENEZES DE ARAUJO" },
+                { number: "47", name: "VITORIA MENEZES BRANDAO" },
+                { number: "49", name: "LORENA ALEXANDRE SANTOS DA SILVA" },
+                { number: "50", name: "MANUELLA DE MORAES SOUZA" },
+                { number: "51", name: "VITORIA JOLIE RODRIGUES RAPOSO" },
+                { number: "52", name: "RAQUEL BARGAS TAVARES DOS SANTOS" },
+                { number: "53", name: "RODOLFO RAFAEL GOLZENLEUCHTER MORENO JUNIOR" },
+                { number: "54", name: "ANTONIO CARLOS CAMPOS NETO" }
+            ]
+        };
+
+        // Questões da atividade
+        const questions = [
+            {
+                id: 1,
+                question: "Em uma aula de Ciências, o professor explicou as propriedades dos ímãs e fez uma demonstração de como um ímã pode ser dividido. Ao cortar um ímã ao meio, o professor explicou que ambos os pedaços continuariam a apresentar dois polos magnéticos: um polo norte e um polo sul. Esse fenômeno ocorre porque:",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgFyXurfNAlmG7dPaNcs10tdjYaLw1lg8m9mteW5HwZq9s6XEO-qp7yzuGCnRCCZawNJGoNwy30nmqhwgeUvlNfoDhOl3vyFj7wEODXYO66oyH57Fjkhls2JSY3pdF394ae5Cb6D6Lvl9k8UXIpEqO9gEcuRrWq9OgWo0jJKXBAqaWccxHpBF8jTlz3OLOE/s450/ChatGPT%20Image%2011%20de%20nov.%20de%202025,%2009_06_06.png",
+                options: [
+                    { text: "os ímãs só apresentam um único polo, que não se divide em duas partes.", correct: false },
+                    { text: "o corte de um ímã resulta na perda da polaridade, fazendo que ele se torne não magnético.", correct: false },
+                    { text: "cada pedaço do ímã se torna um novo ímã, com dois polos magnéticos, norte e sul.", correct: true },
+                    { text: "o ímã cortado resulta em um único pedaço com um polo norte, e em outro com um polo sul, sem interação entre eles.", correct: false }
+                ]
+            },
+            {
+                id: 2,
+                question: "Duas partículas carregadas estão em repouso no vácuo. Sabendo que uma delas tem carga positiva e a outra carga negativa, analise as afirmativas a seguir: <br>I. As partículas se atraem mutuamente, pois cargas de sinais opostos geram uma força de atração. <br>II. Se ambas as partículas possuíssem cargas do mesmo sinal (positivas ou negativas), elas se atrairiam. <br>III. Se uma das partículas tivesse carga negativa e a outra fosse neutra, haveria uma atração entre elas devido à redistribuição das cargas do corpo neutro.",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5e04O1fQ2AinywnmHkzzNfyOaHjauw52PL-pYiheoT1Bi_dhjemxwcTY_JIpVScG2hi2Q3Sid_A-YDk8aXnUTINU7vb7zDfzbPuzMpofN3lEjR9VHTp17rK0O5wINvjnKG2Q4eOk-3ODz4pcLDlHaYRwfEhndzrd8k7_co5gK3TvYsf7WMT4BHVTvCEPx/s450/1dd7bcf0-6655-40c1-b73b-262193e2b4c9.png",
+                options: [
+                    { text: "Apenas I está correta.", correct: false },
+                    { text: "Apenas I e III estão corretas.", correct: true },
+                    { text: "Apenas II e III estão corretas.", correct: false },
+                    { text: "Todas as afirmativas estão corretas.", correct: false }
+                ]
+            },
+            {
+                id: 3,
+                question: "Quando dois corpos carregados tocam-se e um dos corpos perde parte de sua carga para o outro, qual processo de eletrização está acontecendo?",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgZOFeNUvFJ61nehr_NYD2OfglHRyBCBjL5Drg8rgzag3sUUT9s1zxC6i7WMKudy5lsKGG9n37HxPDpmlcCmnFi4CyKB43AYvF0hv-N071n65mUVvqJMQb-Mw-wjDxNRcW6KZgytVABHv_xWtl3Zld5TtPUZF-eOB7_7WpGmZcm1IJIq_qN3jdf9RfxECuJ/s450/ChatGPT%20Image%2011%20de%20nov.%20de%202025,%2009_15_15.png",
+                options: [
+                    { text: "Eletrização por indução.", correct: false },
+                    { text: "Eletrização por atrito.", correct: false },
+                    { text: "Eletrização por contato.", correct: true },
+                    { text: "Eletrização por condução.", correct: false }
+                ]
+            },
+            {
+                id: 4,
+                question: "Em uma oficina de eletrônica, um técnico está montando um circuito simples para testar a resistência de um componente. Ele conecta um resistor de 10 Ω a uma fonte de tensão de 20 V. Usando a 1ª Lei de Ohm, qual será a intensidade da corrente elétrica que passará pelo resistor?",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjL8rYJiBYgvRy7qQUmsTz8q0PaFrKxXI3C16Yox4hR8_O7VII-KicKvYlTBIVmByQ5QDeC4UUbZ2wkb2BnUYHN-Tj4IpJQbeW9OD4whyphenhyphenLaQWx0KuRkV2vAT9fMN8mGnBAI6yd-WH4HrhLHfkyI1Gw1pKcc_TOUT7VZfuoS2SpsM2IUCrT1G0fYCjxZ1Xez/s450/ChatGPT%20Image%2011%20de%20nov.%20de%202025,%2009_21_59.png",
+                options: [
+                    { text: "0,5 A", correct: false },
+                    { text: "2 A", correct: true },
+                    { text: "10 A", correct: false },
+                    { text: "200 A", correct: false }
+                ]
+            },
+            {
+                id: 5,
+                question: "Por qual motivo ocorre a eletrização ilustrada na tirinha quando o gato esfrega na calça?",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgjMtSst2KizDSEdZlMA-lujGbWsDC3H9hlrGpq4MqQCW427Y22_qXYv06H4YbZ7vgfuBz5HL21oQZKVLahuLvVg4MX7QC_ZHJ8zizdwa1lBLvcV61nDX5_ZcNtJkdmPzMV4Vd3yM3ty6lIJPqItZ-c915id9f2Mgjpm6MKvy-mQaxat_oxS1Okz5pm_tNo/s250/Capturar.JPG",
+                options: [
+                    { text: "Troca de átomos entre a calça e os pelos do gato.", correct: false },
+                    { text: "Diminuição do número de prótons nos pelos do gato.", correct: false },
+                    { text: "Criação de novas partículas eletrizadas nos pelos do gato.", correct: false },
+                    { text: "Movimentação de elétrons entre a calça e os pelos do gato.", correct: true }
+                ]
+            },
+            {
+                id: 6,
+                question: "O que ocorre quando um corpo neutro se aproxima de um corpo eletrizado?",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJqSbFNf_QgHA7NALqpKncIPevVukBi9-VP7Tedk8HMVPVIpj1gJJxlmzJDAwDnMC_ProDww_xlDqPhpjxRIMnRupBIxuiab0bsNcJGU62Jpy1Z7QL6GbxTG5z1A5hcIWQRP4AXK8geCPkGy66ViN24VSvUAmUnQfeLpf6o2zxRYY3Kl8EqQWY4DsEvt7u/s450/Capturar.JPG",
+                options: [
+                    { text: "O corpo neutro se torna eletricamente negativo.", correct: false },
+                    { text: "O corpo neutro atrai cargas positivas.", correct: false },
+                    { text: "O corpo neutro sofre separação de cargas e é atraído.", correct: true },
+                    { text: "O corpo neutro perde suas cargas negativas.", correct: false }
+                ]
+            },
+            {
+                id: 7,
+                question: "Qual das seguintes afirmações sobre o campo magnético terrestre está correta?",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1NV4jDrt4KBqNrgMv5nYUro56RXf9T4ss4nSHz-VZ5vwVa5iVCpiIOLx49nCQtgFXA0bz3LQBY0yg_vHDQBapVKFJn57GlvlXbxlUNEgo7AWm5rw6NSHAnpyp35_sPNf8CAdxI_IzH_u_JokWpiJbJjQLR5ixcb04BaLTcJV__2D6nQedlTbXgsDntRPG/s450/Capturar.JPG",
+                options: [
+                    { text: "O campo magnético terrestre é gerado pelo movimento de metais líquidos no núcleo da Terra.", correct: true },
+                    { text: "O campo magnético terrestre é permanente e não sofre alterações.", correct: false },
+                    { text: "O campo magnético terrestre não tem influência sobre a vida no planeta.", correct: false },
+                    { text: "O campo magnético terrestre é mais forte no equador do que nos polos.", correct: false }
+                ]
+            },
+            {
+                id: 8,
+                question: "Em relação aos tipos de materiais e suas propriedades magnéticas, assinale a alternativa correta:",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi3xeN25dNu0kfVvWL7o8e_i2GqwsYPPk8RxBIIpUsCwhIwYkxMYRdtcSM3H1okAKdfnmKO_93bS_5Kda2En2Z3CcXV3D9pCAAc9RkLCFKekampYU1EPbRJ1U0LreSa81sB4V1lkMpsT0EwcCJ8ToDU6R4MbpL6iwoKjXyMoXK9bZ0x20iIsiDdSR2u7DVl/s450/ChatGPT%20Image%2012%20de%20nov.%20de%202025,%2005_58_10.png",
+                options: [
+                    { text: "Materiais diamagnéticos são fortemente atraídos por ímãs.", correct: false },
+                    { text: "Materiais paramagnéticos são levemente atraídos por ímãs.", correct: true },
+                    { text: "Materiais ferromagnéticos não interagem com campos magnéticos.", correct: false },
+                    { text: "Todos os metais são fortemente atraídos por ímãs.", correct: false }
+                ]
+            },
+            {
+                id: 9,
+                question: "Sobre a formação dos raios, é correto afirmar que:",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi0GHUQ5MBxlei7xx-c_wB5rvhJ4GR_j_5g2a_cmYLuTVvBDyLKpmnU_UurVlUoDrb1w8Df7IT0BJ9BwlBulbZPEA9lK939NI9rEYkhVznNh_GWqBpCCLkhxZFMR9RSIR2hWvZAObN4g5AJjdeYsM-Qlxy7Rre1xOovE-W2tIB9J3gcZKqVyNgJiY01TEUr/s429/Capturar.JPG",
+                options: [
+                    { text: "Os raios são formados apenas entre nuvens e nunca atingem o solo.", correct: false },
+                    { text: "Os raios são formados pelo atrito entre partículas de gelo, água e granizo nas nuvens.", correct: true },
+                    { text: "Os raios são formados apenas em regiões tropicais.", correct: false },
+                    { text: "Os raios são formados pela colisão de nuvens com aviões.", correct: false }
+                ]
+            },
+            {
+                id: 10,
+                question: "Um engenheiro está projetando um sistema de aquecimento em uma residência. A fonte de energia disponível é uma saída elétrica de 220 volts, e o aquecedor possui uma resistência de 8 ohms. Qual é a corrente elétrica que passará pelo aquecedor?",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVJHPmi_4Apy0xDLpajQ09dHS8I1jp60M-gU_z0PHk_WxlvM_ltsyipunus9Jodgnga_NPej7OGxYjtvT9u0bC6HcVjeBFt3znac-tHrYTHWJgFlwMNKKzlnH44JmD-lHMv9rKrQlpw-Y16waFLCsAVmae9YXfdGxnjfOjbVSrSHFldbFMQOCXlDYoHCoE/s450/ChatGPT%20Image%2012%20de%20nov.%20de%202025,%2006_09_33.png",
+                options: [
+                    { text: "17,5 A", correct: false },
+                    { text: "27,5 A", correct: true },
+                    { text: "35 A", correct: false },
+                    { text: "45 A", correct: false }
+                ]
+            }
+        ];
+
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar data atual
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('pt-BR');
+            document.getElementById('currentDate').value = formattedDate;
+            
+            // Preencher lista de alunos
+            const studentSelect = document.getElementById('studentName');
+            
+            // Adicionar alunos do 8º Ano A
+            const optionGroupA = document.createElement('optgroup');
+            optionGroupA.label = '8º Ano A';
+            students["8ºAno A"].forEach(student => {
+                const option = document.createElement('option');
+                option.value = `${student.number}|8º Ano A|${student.name}`;
+                option.textContent = student.name;
+                optionGroupA.appendChild(option);
+            });
+            studentSelect.appendChild(optionGroupA);
+            
+            // Adicionar alunos do 8º Ano B
+            const optionGroupB = document.createElement('optgroup');
+            optionGroupB.label = '8º Ano B';
+            students["8ºAno B"].forEach(student => {
+                const option = document.createElement('option');
+                option.value = `${student.number}|8º Ano B|${student.name}`;
+                option.textContent = student.name;
+                optionGroupB.appendChild(option);
+            });
+            studentSelect.appendChild(optionGroupB);
+            
+            // Preencher questões
+            const questionsContainer = document.getElementById('questionsContainer');
+            questions.forEach(q => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                
+                let optionsHTML = '';
+                q.options.forEach((option, index) => {
+                    const letter = String.fromCharCode(65 + index);
+                    optionsHTML += `
+                        <div class="option" data-question="${q.id}" data-option="${index}" data-letter="${letter})">
+                            ${option.text}
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="question">${q.id}. ${q.question}</div>
+                    <img src="${q.image}" alt="Imagem da questão ${q.id}" class="question-image">
+                    <div class="options">
+                        ${optionsHTML}
+                    </div>
+                `;
+                questionsContainer.appendChild(questionDiv);
+            });
+            
+            // Adicionar eventos aos botões de opção
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.getAttribute('data-question');
+                    const optionIndex = this.getAttribute('data-option');
+                    
+                    // Remover seleção anterior nesta questão
+                    document.querySelectorAll(`.option[data-question="${questionId}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Selecionar esta opção
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Evento para seleção de aluno
+            studentSelect.addEventListener('change', function() {
+                if (this.value) {
+                    const [number, grade, name] = this.value.split('|');
+                    document.getElementById('studentNumber').value = number;
+                    document.getElementById('studentGrade').value = grade;
+                } else {
+                    document.getElementById('studentNumber').value = '';
+                    document.getElementById('studentGrade').value = '';
+                }
+            });
+            
+            // Evento para botão de limpar
+            document.getElementById('clearBtn').addEventListener('click', function() {
+                document.querySelectorAll('.option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                document.getElementById('resultMessage').style.display = 'none';
+            });
+            
+            // Evento para botão de enviar
+            document.getElementById('submitBtn').addEventListener('click', function() {
+                const studentName = document.getElementById('studentName').value;
+                if (!studentName) {
+                    showResult('Por favor, selecione seu nome antes de enviar.', 'error');
+                    return;
+                }
+                
+                // Verificar se todas as questões foram respondidas
+                const answeredQuestions = document.querySelectorAll('.option.selected').length;
+                if (answeredQuestions < questions.length) {
+                    showResult(`Você respondeu ${answeredQuestions} de ${questions.length} questões. Por favor, responda todas as questões antes de enviar.`, 'error');
+                    return;
+                }
+                
+                // Calcular pontuação
+                let score = 0;
+                questions.forEach(q => {
+                    const selectedOption = document.querySelector(`.option.selected[data-question="${q.id}"]`);
+                    if (selectedOption) {
+                        const optionIndex = parseInt(selectedOption.getAttribute('data-option'));
+                        if (q.options[optionIndex].correct) {
+                            score++;
+                        }
+                    }
+                });
+                
+                // Exibir resultado
+                const percentage = (score / questions.length) * 100;
+                showResult(`Você acertou ${score} de ${questions.length} questões (${percentage.toFixed(1)}%). Sua nota será enviada para a planilha.`, 'success');
+                
+                // Enviar para o Google Sheets (em produção, isso seria implementado)
+                const [studentNumber, studentGrade, studentFullName] = studentName.split('|');
+                sendToGoogleSheets(studentFullName, studentNumber, studentGrade, score, percentage);
+            });
+        });
+        
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('resultMessage');
+            resultDiv.textContent = message;
+            resultDiv.className = `result ${type}`;
+            resultDiv.style.display = 'block';
+        }
+        
+        function sendToGoogleSheets(name, number, grade, score, percentage) {
+            // Em um ambiente real, isso enviaria os dados para o Google Sheets
+            // usando o Google Apps Script
+            console.log(`Enviando dados para a planilha: ${name}, ${number}, ${grade}, ${score}, ${percentage}%`);
+            
+            // Código para integração com Google Apps Script
+            // fetch('URL_DO_SEU_APPS_SCRIPT', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         name: name,
+            //         number: number,
+            //         grade: grade,
+            //         score: score,
+            //         percentage: percentage
+            //     })
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Sucesso:', data);
+            // })
+            // .catch((error) => {
+            //     console.error('Erro:', error);
+            // });
+        }
+    </script>
+</body>
+</html>
